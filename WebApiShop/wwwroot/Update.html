@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="Update.js" defer></script>
+    <title>
+        .log {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        }
+        .hello{
+        display: grid;
+        align-items: center;
+        text-align: center;
+        }
+        .update{
+        display: flex;
+        flex-direction: column;
+        width: 20vw;
+        margin: 2vw;
+        }
+        .button{
+        margin-top: 20px;
+        }
+    </title>
+</head>
+<body>
+    <div class="log">
+        <div>
+            <h1 class="hello">עדכון הנתונים</h1>
+        </div>
+        <div class="update">
+            <lable for="userName">שם משתמש</lable>
+            <input type="email" id="userName" name="userName" required /><br />
+            <lable for="firstName">שם פרטי</lable>
+            <input type="text" id="firstName" name="firstName" required /><br />
+            <lable for="lastName">שם משפחה</lable>
+            <input type="text" id="lastName" name="lastName" required /><br />
+            <lable for="password">סיסמא</lable>
+            <input type="password" id="password" name="password" required /><br />
+            <button onClick="Update()" class="button">עדכון</button>
+        </div>
+    </div>
+</body>
+</html>

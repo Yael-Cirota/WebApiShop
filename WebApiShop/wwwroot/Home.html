@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script src="Home.js" defer></script>
+        <title>webApi</title>
+        <style>
+            .cont{
+                display:flex;
+                flex-direction:row;
+            }
+            .existUser {
+                display: flex;
+                flex-direction: column;
+                width:20vw;
+                margin:2vw;
+            }
+            .newUser {
+                display: flex;
+                flex-direction: column;
+                width: 20vw;
+                margin: 2vw;
+            }
+            button{
+                margin-top: 1vh;
+            }
+        </style>
+    </head>
+    <body>
+        <!--<button onClick="getResponse()">get Api</button>
+        <button onClick="postResponse()">post Api</button>-->
+        <div class="cont">
+            <div class="existUser">
+                <h3>משתמש רשום</h3>
+                <lable for="userNameLI" >שם משתמש</lable>
+                <input type="email" id="userNameLI" name="userNameLI" required />
+                <lable for="passwordLI">סיסמא</lable>
+                <input type="password" id="passwordLI" name="passwordLI" required />
+                <button onClick="Login()" class="button">שליחה</button>
+            </div>
+
+            <div class="newUser">
+                <h3>משתמש חדש</h3>
+                <lable for="userName">שם משתמש</lable>
+                <input type="email" id="userName" name="userName" required />
+                <lable for="firstName">שם פרטי</lable>
+                <input type="text" id="firstName" name="firstName" required />
+                <lable for="lastName">שם משפחה</lable>
+                <input type="text" id="lastName" name="lastName" required />
+                <lable for="password">סיסמא</lable>
+                <input type="password" id="password" name="password" required />
+                <button  onClick="newUser()" class="button">שליחה</button>
+            </div>   
+        </div>
+    </body>
+</html>
