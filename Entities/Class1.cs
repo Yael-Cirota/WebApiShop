@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApiShop
+namespace Entities
 {
     public class User
     {
@@ -24,6 +24,4 @@ namespace WebApiShop
             this.Password = password;
         }
     }
-
-
 }

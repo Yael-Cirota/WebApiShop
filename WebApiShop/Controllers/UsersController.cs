@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using UserService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,72 +12,43 @@ namespace WebApiShop.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        string _filePath = "M:\\WebApi\\WebApiShop\\WebApiShop\\users.txt";
-
+        UserServices userServices = new UserServices();
         // GET: api/<UsersController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return userServices.GetUsers();
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public string getById(int id)
         {
-            return "value";
+            return userServices.GetById();
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public ActionResult<User> Post([FromBody] User value)
+        public ActionResult<User> Post([FromBody] User user)
         {
-            int numberOfUsers = System.IO.File.ReadLines(_filePath).Count();
-            value.Id = numberOfUsers + 1;
-            string userJson = JsonSerializer.Serialize(value);
-            System.IO.File.AppendAllText(_filePath, userJson + Environment.NewLine);
-            return CreatedAtAction(nameof(Get), new { id = value.Id }, value);
+            User userResult = userServices.AddUser(user);
+            return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
         }
 
         [HttpPost("Login")]
-        public ActionResult<User> Login([FromBody] User value)
+        public ActionResult<User> Login([FromBody] User user)
         {
-            using (StreamReader reader = System.IO.File.OpenText(_filePath))
-            {
-                string? currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
-                {
-                    User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user.Email == value.Email && user.Password == value.Password)
-                        return Ok(user);
-                }
-            }
-            return NoContent();
+            User userResult = userServices.FindUser(user);
+            if (userResult == null)
+                return NoContent();
+            return user;
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] User userToUpdate)
+        public void UpdateUser(int id, [FromBody] User user)
         {
-            string textToReplace = string.Empty;
-            using (StreamReader reader = System.IO.File.OpenText(_filePath))
-            {
-                string currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
-                {
-                    User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user.Id == id)
-                        textToReplace = currentUserInFile;
-                }
-            }
-
-            if (textToReplace != string.Empty)
-            {
-                string text = System.IO.File.ReadAllText(_filePath);
-                text = text.Replace(textToReplace, JsonSerializer.Serialize(userToUpdate));
-                System.IO.File.WriteAllText(_filePath, text);
-            }
-
+            userServices.UpdateUser(id, user);
         }
 
         // DELETE api/<UsersController>/5
