@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using UserService;
+using Service;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,6 +13,8 @@ namespace WebApiShop.Controllers
     public class UsersController : ControllerBase
     {
         UserServices userServices = new UserServices();
+        PasswordServices passwordServices = new PasswordServices();
+
         // GET: api/<UsersController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -29,9 +31,12 @@ namespace WebApiShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public ActionResult<User> Post([FromBody] User user)
+        public ActionResult<User> newUser([FromBody] User user)
         {
             User userResult = userServices.AddUser(user);
+            Password password = passwordServices.GetStrength(user.Password);
+            if (password.Strength < 2)
+                return BadRequest("Password is too weak");
             return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
         }
 

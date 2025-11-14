@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <script src="Home.js" defer></script>
+        <script src="Home.js", src="Update.js" defer></script>
         <title>webApi</title>
         <style>
             .cont{
@@ -49,7 +49,10 @@
                 <input type="text" id="lastName" name="lastName" required />
                 <lable for="password">סיסמא</lable>
                 <input type="password" id="password" name="password" required />
-                <button  onClick="newUser()" class="button">שליחה</button>
+                <button onclick="checkPasswordStrength()">בדיקת חוזק סיסמא</button>
+                <progress id="progressBar" value="72" max="100"> </progress>
+                <!--<div id="progressBar"></div>-->
+                <button onClick="newUser()" class="button">שליחה</button>
             </div>   
         </div>
     </body>

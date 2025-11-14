@@ -13,6 +13,11 @@ async function Update() {
             LastName: lastName,
             Password: password,
         };
+        const strength = checkPasswordStrength();
+        if (strength < 2) {
+            alert("הסיסמה חלשה מדי, נסה סיסמה חזקה יותר");
+            return;
+        }
 
         const response = await fetch(`https://localhost:44378/api/users/${q.id}`,
             {
@@ -31,6 +36,8 @@ async function Update() {
         if (response.ok) {
             alert("עודכן בהצלחה");
         }
+
+
     }
     catch (e) {
         console.log(e);

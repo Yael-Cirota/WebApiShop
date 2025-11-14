@@ -1,5 +1,4 @@
 ﻿
-
 async function getResponse() {
     try {
         const response = await fetch(
@@ -42,7 +41,6 @@ async function newUser() {
                 body: JSON.stringify(postData)
             });
 
-        const dataPost = await response;
         if (response.ok)
             alert("משתמש נרשם בהצלחה!!!");
         else
@@ -65,6 +63,7 @@ async function Login() {
             LastName: "",
             Password: pass.value
         };
+
         const response = await fetch('https://localhost:44378/api/users/Login',
             {
                 method: 'POST',
@@ -93,4 +92,38 @@ async function Login() {
         console.log(e);
     }
 
+}
+
+async function checkPasswordStrength() {
+    const password = document.querySelector("#password").value;
+    const passwordData = {
+        Passwrd: password,
+        Strength: 0
+    };
+
+    try {
+        const response = await fetch('https://localhost:44378/api/password',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(passwordData)
+            });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status${response.status}`)
+        }
+
+        const data = await response.json();
+        if (response.status == 200) {
+            console.log("data strength: ", data);
+            document.querySelector("#progressBar").value = data.strength;
+        }
+        return data.strength;
+    }
+    catch (e) {
+        console.log(e);
+    }
+    
 }

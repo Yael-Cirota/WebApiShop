@@ -1,7 +1,7 @@
 ﻿using Entities;
 using UserRepository;
 
-namespace UserService
+namespace Service
 {
     public class UserServices
     {
