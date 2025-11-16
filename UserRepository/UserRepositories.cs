@@ -3,8 +3,14 @@ using System.Text.Json;
 
 namespace UserRepository
 {
-    public class UserRepositories
+    public class UserRepositories : IUserRepositories
     {
+        //public UserRepositories(IUserRepositories userRepositories)
+        //{
+
+        //}
+
+
         string filePath = "M:\\WebApi\\WebApiShop1\\WebApiShop\\users.txt";
         public IEnumerable<string> GetUsers()
         {

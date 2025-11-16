@@ -3,28 +3,38 @@ using UserRepository;
 
 namespace Service
 {
-    public class UserServices
+    public class UserServices : IUserServices
     {
-        UserRepositories userRepositories = new UserRepositories();
+        IUserRepositories _iUserRepositories;
+
+        public UserServices(IUserRepositories userRepositories)
+        {
+            _iUserRepositories = userRepositories;
+        }
+
         public string GetById()
         {
-            return userRepositories.GetById();
+            return _iUserRepositories.GetById();
         }
         public IEnumerable<string> GetUsers()
         {
-            return userRepositories.GetUsers();
+            return _iUserRepositories.GetUsers();
         }
         public User AddUser(User user)
         {
-            return userRepositories.AddUser(user);
+            return _iUserRepositories.AddUser(user);
         }
         public User FindUser(User user)
         {
-            return userRepositories.FindUser(user);
+            return _iUserRepositories.FindUser(user);
         }
-        public void UpdateUser(int id, User user)
+        public Password UpdateUser(int id, User user)
         {
-            userRepositories.UpdateUser(id, user);
+            var result = Zxcvbn.Core.EvaluatePassword(user.Password);
+            if (result.Score >= 2)
+                _iUserRepositories.UpdateUser(id, user);
+            Password password = new Password { Passwrd = user.Password, Strength = result.Score };
+            return password;
         }
 
     }

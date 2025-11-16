@@ -10,31 +10,37 @@ namespace WebApiShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : ControllerBase, IUsersController
     {
-        UserServices userServices = new UserServices();
-        PasswordServices passwordServices = new PasswordServices();
+        IUserServices _iUserServices;
+        IPasswordServices _iPasswordServices;
+
+        public UsersController(IUserServices userServices, IPasswordServices passwordServices)
+        {
+            _iUserServices = userServices;
+            _iPasswordServices = passwordServices;
+        }
 
         // GET: api/<UsersController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return userServices.GetUsers();
+            return _iUserServices.GetUsers();
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
         public string getById(int id)
         {
-            return userServices.GetById();
+            return _iUserServices.GetById();
         }
 
         // POST api/<UsersController>
         [HttpPost]
         public ActionResult<User> newUser([FromBody] User user)
         {
-            User userResult = userServices.AddUser(user);
-            Password password = passwordServices.GetStrength(user.Password);
+            User userResult = _iUserServices.AddUser(user);
+            Password password = _iPasswordServices.GetStrength(user.Password);
             if (password.Strength < 2)
                 return BadRequest("Password is too weak");
             return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
@@ -43,7 +49,7 @@ namespace WebApiShop.Controllers
         [HttpPost("Login")]
         public ActionResult<User> Login([FromBody] User user)
         {
-            User userResult = userServices.FindUser(user);
+            User userResult = _iUserServices.FindUser(user);
             if (userResult == null)
                 return NoContent();
             return user;
@@ -51,9 +57,12 @@ namespace WebApiShop.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public void UpdateUser(int id, [FromBody] User user)
+        public ActionResult UpdateUser(int id, [FromBody] User user)
         {
-            userServices.UpdateUser(id, user);
+            Password password = _iUserServices.UpdateUser(id, user);
+            if (password.Strength < 2)
+                return BadRequest();
+            return Ok(user);
         }
 
         // DELETE api/<UsersController>/5

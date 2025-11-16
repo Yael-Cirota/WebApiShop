@@ -118,7 +118,7 @@ async function checkPasswordStrength() {
         const data = await response.json();
         if (response.status == 200) {
             console.log("data strength: ", data);
-            document.querySelector("#progressBar").value = data.strength;
+            document.querySelector("#progressBar").value = data.strength*25;
         }
         return data.strength;
     }

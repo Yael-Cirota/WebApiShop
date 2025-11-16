@@ -8,9 +8,13 @@ namespace WebApiShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PasswordController : ControllerBase
+    public class PasswordController : ControllerBase, IPasswordController
     {
-        PasswordServices passwordServices = new PasswordServices();
+        IPasswordServices _iPasswordServices;
+        public PasswordController(IPasswordServices passwordServices)
+        {
+            _iPasswordServices = passwordServices;
+        }
 
         // GET: api/<PasswordController>
         [HttpGet]
@@ -28,9 +32,9 @@ namespace WebApiShop.Controllers
 
         // POST api/<PasswordController>
         [HttpPost]
-        public ActionResult<Password> Post([FromBody]Password password)
+        public ActionResult<Password> Post([FromBody] Password password)
         {
-            Password password1 = passwordServices.GetStrength(password);
+            Password password1 = _iPasswordServices.GetStrength(password);
             if (password1 == null)
             {
                 return NoContent();
@@ -40,8 +44,9 @@ namespace WebApiShop.Controllers
 
         // PUT api/<PasswordController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody] string value)
         {
+
         }
 
         // DELETE api/<PasswordController>/5

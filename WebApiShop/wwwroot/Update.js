@@ -13,11 +13,11 @@ async function Update() {
             LastName: lastName,
             Password: password,
         };
-        const strength = checkPasswordStrength();
-        if (strength < 2) {
-            alert("הסיסמה חלשה מדי, נסה סיסמה חזקה יותר");
-            return;
-        }
+        //const strength = checkPasswordStrength();
+        //if (strength < 2) {
+        //    alert("הסיסמה חלשה מדי, נסה סיסמה חזקה יותר");
+        //    return;
+        //}
 
         const response = await fetch(`https://localhost:44378/api/users/${q.id}`,
             {
@@ -28,11 +28,15 @@ async function Update() {
                 body: JSON.stringify(updateData)
             });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status${response.status}`)
+        //if (!response.ok) {
+        //    alert("עדכון נכשל, נסה שוב");
+        //    throw new Error(`HTTP error! status${response.status}`)
+        //}
+
+        if (response.status == 400) {
+            alert("העדכון לא הצליח, הסיסמא לא חזקה מספיק")
         }
 
-        console.log('PUT Data:', data);
         if (response.ok) {
             alert("עודכן בהצלחה");
         }
