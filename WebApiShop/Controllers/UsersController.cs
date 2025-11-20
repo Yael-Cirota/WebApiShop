@@ -12,57 +12,61 @@ namespace WebApiShop.Controllers
     [ApiController]
     public class UsersController : ControllerBase, IUsersController
     {
-        IUserServices _iUserServices;
-        IPasswordServices _iPasswordServices;
+        private readonly IUserServices _userServices;
+        private readonly IPasswordServices _passwordServices;
 
         public UsersController(IUserServices userServices, IPasswordServices passwordServices)
         {
-            _iUserServices = userServices;
-            _iPasswordServices = passwordServices;
+            _userServices = userServices;
+            _passwordServices = passwordServices;
         }
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<IEnumerable<string>> Get()
         {
-            return _iUserServices.GetUsers();
+            IEnumerable<string> users = _userServices.GetUsers();
+            return Ok(users);
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public string getById(int id)
+        public ActionResult<string> GetById(int id)
         {
-            return _iUserServices.GetById();
+            string user = _userServices.GetById();
+            if (string.IsNullOrEmpty(user))
+                return NotFound();
+            return Ok(user);
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public ActionResult<User> newUser([FromBody] User user)
+        public ActionResult<User> NewUser([FromBody] User user)
         {
-            User userResult = _iUserServices.AddUser(user);
-            Password password = _iPasswordServices.GetStrength(user.Password);
+            Password password = _passwordServices.GetStrength(user.Password);
             if (password.Strength < 2)
-                return BadRequest("Password is too weak");
-            return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
+                return BadRequest("Password is not strong enough");
+            User userResult = _userServices.AddUser(user);
+            return CreatedAtAction(nameof(Get), new { id = userResult.Id }, userResult);
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public ActionResult<User> Login([FromBody] User user)
         {
-            User userResult = _iUserServices.FindUser(user);
+            User userResult = _userServices.FindUser(user);
             if (userResult == null)
-                return NoContent();
-            return user;
+                return Unauthorized();
+            return Ok(userResult);
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
         public ActionResult UpdateUser(int id, [FromBody] User user)
         {
-            Password password = _iUserServices.UpdateUser(id, user);
+            Password password = _userServices.UpdateUser(id, user);
             if (password.Strength < 2)
-                return BadRequest();
-            return Ok(user);
+                return BadRequest("Password is not strong enough");
+            return NoContent();
         }
 
         // DELETE api/<UsersController>/5

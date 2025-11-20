@@ -11,13 +11,13 @@ namespace Service
     {
         public Password GetStrength(Password password)
         {
-            var result = Zxcvbn.Core.EvaluatePassword(password.Passwrd);
+            var result = Zxcvbn.Core.EvaluatePassword(password.PasswordValue);
             password.Strength = result.Score;
             return password;
         }
         public Password GetStrength(string password)
         {
-            return GetStrength(new Password { Passwrd = password });
+            return GetStrength(new Password { PasswordValue = password });
         }
     }
 }

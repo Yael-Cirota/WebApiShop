@@ -8,7 +8,7 @@ namespace Entities
 {
     public class Password
     {
-        public string Passwrd { get; set; }
+        public string PasswordValue { get; set; }
         public int Strength { get; set; }
     }
 }
