@@ -45,7 +45,7 @@ namespace WebApiShop.Controllers
         {
             Password password = _passwordServices.GetStrength(user.Password);
             if (password.Strength < 2)
-                return BadRequest("Password is not strong enough");
+                return BadRequest($"Password too weak (score: {password.Strength}/4). Minimum required: 2");
             User userResult = _userServices.AddUser(user);
             return CreatedAtAction(nameof(Get), new { id = userResult.Id }, userResult);
         }
@@ -63,9 +63,10 @@ namespace WebApiShop.Controllers
         [HttpPut("{id}")]
         public ActionResult UpdateUser(int id, [FromBody] User user)
         {
-            Password password = _userServices.UpdateUser(id, user);
+            Password password = _passwordServices.GetStrength(user.Password);
             if (password.Strength < 2)
-                return BadRequest("Password is not strong enough");
+                return BadRequest($"Password too weak (score: {password.Strength}/4). Minimum required: 2");
+            _userServices.UpdateUser(id, user);
             return NoContent();
         }
 

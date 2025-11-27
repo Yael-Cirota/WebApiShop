@@ -8,6 +8,6 @@ namespace Service
         User FindUser(User user);
         string GetById();
         IEnumerable<string> GetUsers();
-        Password UpdateUser(int id, User user);
+        void UpdateUser(int id, User user);
     }
 }
