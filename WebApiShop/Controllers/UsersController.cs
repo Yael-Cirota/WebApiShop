@@ -23,37 +23,38 @@ namespace WebApiShop.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult<IEnumerable<User>>> Get()
         {
-            IEnumerable<string> users = _userServices.GetUsers();
+            IEnumerable<User> users = await _userServices.GetUsers();
             return Ok(users);
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public ActionResult<string> GetById(int id)
+        public async Task<ActionResult<string>> GetById(int id)
         {
-            string user = _userServices.GetById();
-            if (string.IsNullOrEmpty(user))
+            User user = await _userServices.GetById(id);
+            if (user == null)
                 return NotFound();
             return Ok(user);
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public ActionResult<User> NewUser([FromBody] User user)
+        public async Task<ActionResult<User>> NewUser([FromBody] User user)
         {
-            Password password = _passwordServices.GetStrength(user.Password);
-            if (password.Strength < 2)
-                return BadRequest("Password is not strong enough");
-            User userResult = _userServices.AddUser(user);
+            User userResult = await _userServices.AddUser(user);
+            if (userResult == null)
+            {
+                return BadRequest("The Password is not Strength Enough");
+            }
             return CreatedAtAction(nameof(Get), new { id = userResult.Id }, userResult);
         }
 
         [HttpPost("login")]
-        public ActionResult<User> Login([FromBody] User user)
+        public async Task<ActionResult<User>> Login([FromBody] User user)
         {
-            User userResult = _userServices.FindUser(user);
+            User userResult = await _userServices.FindUser(user);
             if (userResult == null)
                 return Unauthorized();
             return Ok(userResult);
@@ -61,9 +62,9 @@ namespace WebApiShop.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public ActionResult UpdateUser(int id, [FromBody] User user)
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] User user)
         {
-            Password password = _userServices.UpdateUser(id, user);
+            Password password = await _userServices.UpdateUser(id, user);
             if (password.Strength < 2)
                 return BadRequest("Password is not strong enough");
             return NoContent();
