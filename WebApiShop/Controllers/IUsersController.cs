@@ -6,10 +6,10 @@ namespace WebApiShop.Controllers
     public interface IUsersController
     {
         void Delete(int id);
-        IEnumerable<string> Get();
-        string getById(int id);
-        ActionResult<User> Login([FromBody] User user);
-        ActionResult<User> newUser([FromBody] User user);
-        ActionResult UpdateUser(int id, [FromBody] User user);
+        Task<ActionResult<IEnumerable<User>>> Get();
+        Task<ActionResult<string>> GetById(int id);
+        Task<ActionResult<User>> Login([FromBody] User user);
+        Task<ActionResult<User>> NewUser([FromBody] User user);
+        Task<ActionResult> UpdateUser(int id, [FromBody] User user);
     }
 }

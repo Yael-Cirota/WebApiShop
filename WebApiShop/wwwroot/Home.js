@@ -74,11 +74,15 @@ async function Login() {
             });
 
         if (!response.ok) {
+            alert("משתמש אינו רשום במערכת, הירשם כמשתמש חדש");
             throw new Error(`HTTP error! status${response.status}`)
         }
 
-        if (response.status == 204)
-            alert("משתמש אינו רשום במערכת, הירשם כמשתמש חדש");
+        //if (response.status == 204)
+        //    alert("משתמש אינו רשום במערכת, הירשם כמשתמש חדש");
+
+        //if (response.status == 401)
+        //    alert("משתמש אינו רשום במערכת, הירשם כמשתמש חדש");
 
         else {
             const data = await response.json();

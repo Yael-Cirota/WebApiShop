@@ -6,29 +6,35 @@ namespace Service
     public class UserServices : IUserServices
     {
         private readonly IUserRepositories _userRepositories;
+        private readonly IPasswordServices _passwordServices;
 
-        public UserServices(IUserRepositories userRepositories)
+        public UserServices(IUserRepositories userRepositories, IPasswordServices passwordServices)
         {
             _userRepositories = userRepositories;
+            _passwordServices = passwordServices;
         }
 
-        public string GetById()
+        public async Task<IEnumerable<User>> GetUsers()
         {
-            return _userRepositories.GetById();
+            return await _userRepositories.GetUsers();
         }
-        public IEnumerable<string> GetUsers()
+
+        public async Task<User> GetById(int id)
         {
-            return _userRepositories.GetUsers();
+            return await _userRepositories.GetById(id);
         }
-        public User AddUser(User user)
+
+        public async Task<User> AddUser(User user)
         {
-            return _userRepositories.AddUser(user);
+            if (_passwordServices.GetStrength(user.Password).Strength < 2)
+                return null;
+            return await _userRepositories.AddUser(user);
         }
-        public User FindUser(User user)
+        public async Task<User> FindUser(User user)
         {
-            return _userRepositories.FindUser(user);
+            return await _userRepositories.FindUser(user);
         }
-        public void UpdateUser(int id, User user)
+        public async Task<Password> UpdateUser(int id, User user)
         {
             _userRepositories.UpdateUser(id, user);
         }
