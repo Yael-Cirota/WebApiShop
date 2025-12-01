@@ -36,11 +36,7 @@ namespace Service
         }
         public async Task<Password> UpdateUser(int id, User user)
         {
-            var result = Zxcvbn.Core.EvaluatePassword(user.Password);
-            if (result.Score >= 2)
-                _userRepositories.UpdateUser(id, user);
-            Password password = new Password { PasswordValue = user.Password, Strength = result.Score };
-            return password;
+            _userRepositories.UpdateUser(id, user);
         }
     }
 }

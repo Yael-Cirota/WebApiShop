@@ -43,6 +43,9 @@ namespace WebApiShop.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> NewUser([FromBody] User user)
         {
+            Password password = _passwordServices.GetStrength(user.Password);
+            if (password.Strength < 2)
+                return BadRequest($"Password too weak (score: {password.Strength}/4). Minimum required: 2");=======
             User userResult = await _userServices.AddUser(user);
             if (userResult == null)
             {
@@ -64,9 +67,10 @@ namespace WebApiShop.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateUser(int id, [FromBody] User user)
         {
-            Password password = await _userServices.UpdateUser(id, user);
+            Password password = _passwordServices.GetStrength(user.Password);
             if (password.Strength < 2)
-                return BadRequest("Password is not strong enough");
+                return BadRequest($"Password too weak (score: {password.Strength}/4). Minimum required: 2");
+            await _userServices.UpdateUser(id, user);
             return NoContent();
         }
 
