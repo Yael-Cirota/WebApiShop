@@ -7,6 +7,7 @@ using Service;
 namespace WebApiShop.Controllers
 {
     [Route("api/[controller]")]
+
     [ApiController]
     public class PasswordController : ControllerBase, IPasswordController
     {
@@ -19,7 +20,7 @@ namespace WebApiShop.Controllers
 
         // POST api/<PasswordController>
         [HttpPost]
-        public ActionResult<Password> Post([FromBody] Password password)
+        public ActionResult<Password> Post([FromBody] string password)
         {
             Password result = _passwordServices.GetStrength(password);
             if (result == null)
@@ -27,6 +28,11 @@ namespace WebApiShop.Controllers
                 return BadRequest("Invalid password");
             }
             return Ok(result);
+        }
+
+        public ActionResult<Password> Post([FromBody] Password password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

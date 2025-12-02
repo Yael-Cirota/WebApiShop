@@ -22,7 +22,7 @@ builder.Services.AddScoped<IUsersController, UsersController>();
 builder.Services.AddScoped<IPasswordController, PasswordController>();
 
 builder.Services.AddDbContext<ShopContext>(option => option.UseSqlServer(
-    "Data Source=srv2\\pupils;Initial Catalog=Shop;Integrated Security=True;Trust Server Certificate=True"));
+    "Data Source=srv2\\pupils;Initial Catalog=Shop;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"));
 
 var app = builder.Build();
 

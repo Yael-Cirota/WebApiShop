@@ -1,8 +1,8 @@
 ﻿using Entities;
-using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore;
 using Repositories;
-using System.Linq;
-using System.Text.Json;
+//using System.Linq;
+//using System.Text.Json;
 
 namespace UserRepository
 {

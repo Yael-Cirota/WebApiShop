@@ -40,11 +40,10 @@ async function newUser() {
                 },
                 body: JSON.stringify(postData)
             });
-
         if (response.ok)
             alert("משתמש נרשם בהצלחה!!!");
         else
-            alert("הרישום לא הצליח");
+            alert("משתמש לא נרשם, נסה סיסמא חזקה יותר");
     }
     catch (e) {
         console.log(e);
@@ -56,6 +55,8 @@ async function Login() {
     try {
         const user = document.querySelector("#userNameLI");
         const pass = document.querySelector("#passwordLI");
+
+        localStorage.setItem("users", JSON.stringify(await data));
 
         const dataLogin = {
             Email: user.value,
@@ -87,7 +88,6 @@ async function Login() {
         else {
             const data = await response.json();
             console.log('POST Data:', await data);
-            sessionStorage.setItem("users", JSON.stringify(await data));
 
             window.location.href = "../Update.html";
         }
@@ -112,7 +112,7 @@ async function checkPasswordStrength() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(passwordData)
+                body: JSON.stringify(password)
             });
 
         if (!response.ok) {
@@ -122,7 +122,7 @@ async function checkPasswordStrength() {
         const data = await response.json();
         if (response.status == 200) {
             console.log("data strength: ", data);
-            document.querySelector("#progressBar").value = data.strength*25;
+            document.querySelector("#progressBar").value = data.strength * 25;
         }
         return data.strength;
     }

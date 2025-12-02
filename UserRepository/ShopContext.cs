@@ -15,7 +15,7 @@ public partial class ShopContext : DbContext
     {
     }
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual Microsoft.EntityFrameworkCore.DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
