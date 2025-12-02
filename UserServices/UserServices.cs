@@ -34,7 +34,7 @@ namespace Service
         {
             return await _userRepositories.FindUser(user);
         }
-        public async Task<Password> UpdateUser(int id, User user)
+        public async void UpdateUser(int id, User user)
         {
             _userRepositories.UpdateUser(id, user);
         }
