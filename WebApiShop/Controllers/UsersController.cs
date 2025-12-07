@@ -31,7 +31,7 @@ namespace WebApiShop.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<string>> GetById(int id)
+        public async Task<ActionResult<User>> GetById(int id)
         {
             User user = await _userServices.GetById(id);
             if (user == null)
@@ -57,9 +57,9 @@ namespace WebApiShop.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login([FromBody] User user)
         {
-            User userResult = await _userServices.FindUser(user);
+            User userResult = await _userService.FindUser(user);
             if (userResult == null)
-                return Unauthorized();
+                return Unauthorized("Invalid email or password");
             return Ok(userResult);
         }
 
@@ -70,7 +70,7 @@ namespace WebApiShop.Controllers
             Password password = _passwordServices.GetStrength(user.Password);
             if (password.Strength < 2)
                 return BadRequest($"Password too weak (score: {password.Strength}/4). Minimum required: 2");
-            _userServices.UpdateUser(id, user);
+            await _userServices.UpdateUser(id, user);
             return NoContent();
         }
 

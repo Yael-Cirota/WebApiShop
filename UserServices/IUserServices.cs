@@ -8,6 +8,6 @@ namespace Service
         Task<User> FindUser(User user);
         Task<User> GetById(int id);
         Task<IEnumerable<User>> GetUsers();
-        void UpdateUser(int id, User user);
+        Task UpdateUser(int id, User user);
     }
 }
