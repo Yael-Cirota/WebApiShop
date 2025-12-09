@@ -32,23 +32,17 @@ namespace UserRepository
             return user;
         }
 
-        public async Task<User> FindUser(User user)
+        public async Task<User?> FindUser(User user)
         {
-            try
-            {
-                return await _dbContext.Users.FindAsync(user);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            return await _dbContext.Users.FirstOrDefaultAsync(
+                x => x.Email == user.Email && x.Password == user.Password
+             );
         }
 
-        public async void UpdateUser(int id, User user)
+        public async Task UpdateUser(int id, User user)
         {
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync();
         }
-
     }
 }

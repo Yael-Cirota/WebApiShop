@@ -5,7 +5,7 @@ async function Update() {
         const firstName = document.querySelector("#firstName").value;
         const lastName = document.querySelector("#lastName").value;
         const password = document.querySelector("#password").value;
-        q = await JSON.parse(sessionStorage.getItem("users"));
+        q = await JSON.parse(localStorage.getItem("users"));
 
         const updateData = {
             Email: email,
@@ -34,7 +34,7 @@ async function Update() {
         //}
 
         if (response.status == 400) {
-            alert("העדכון לא הצליח, הסיסמא לא חזקה מספיק")
+            alert("העדכון נכשל, הסיסמא לא חזקה מספיק")
         }
 
         if (response.ok) {

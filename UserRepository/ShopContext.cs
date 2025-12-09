@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Entities;
 
-
 namespace Repositories;
 
 public partial class ShopContext : DbContext
@@ -15,28 +14,86 @@ public partial class ShopContext : DbContext
     {
     }
 
-    public virtual Microsoft.EntityFrameworkCore.DbSet<User> Users { get; set; }
+    public virtual DbSet<Category> Categories { get; set; }
+
+    public virtual DbSet<Order> Orders { get; set; }
+
+    public virtual DbSet<OrderItem> OrderItems { get; set; }
+
+    public virtual DbSet<Product> Products { get; set; }
+
+    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.Property(e => e.CategoryId).HasColumnName("Category_id");
+            entity.Property(e => e.CategoryName)
+                .HasMaxLength(50)
+                .HasColumnName("Category_name");
+        });
+
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.Property(e => e.OrderId).HasColumnName("Order_id");
+            entity.Property(e => e.OrderDate).HasColumnName("Order_date");
+            entity.Property(e => e.OrderSum).HasColumnName("Order_sum");
+            entity.Property(e => e.UserId).HasColumnName("User_id");
+        });
+
+        modelBuilder.Entity<OrderItem>(entity =>
+        {
+            entity.ToTable("Order_item");
+
+            entity.Property(e => e.OrderItemId).HasColumnName("Order_item_id");
+            entity.Property(e => e.OrderId).HasColumnName("Order_id");
+            entity.Property(e => e.ProductId).HasColumnName("Product_id");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OrderItem_Orders");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.OrderItems)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OrderItem_Products");
+        });
+
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.Property(e => e.ProductId).HasColumnName("Product_id");
+            entity.Property(e => e.CategoryId).HasColumnName("Category_id");
+            entity.Property(e => e.Description).HasMaxLength(100);
+            entity.Property(e => e.Price).HasColumnType("money");
+            entity.Property(e => e.ProductName)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("Product_name");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Products)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Products_Categories");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_Users");
-
-            entity.ToTable("User");
+            entity.HasKey(e => e.Id).HasName("PK_Users_1");
 
             entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .IsFixedLength();
+                .IsRequired()
+                .HasMaxLength(50);
             entity.Property(e => e.FirstName)
                 .HasMaxLength(50)
-                .IsFixedLength();
+                .HasColumnName("First_name");
             entity.Property(e => e.LastName)
                 .HasMaxLength(50)
-                .IsFixedLength();
+                .HasColumnName("Last_name");
             entity.Property(e => e.Password)
-                .HasMaxLength(12)
-                .IsFixedLength();
+                .IsRequired()
+                .HasMaxLength(20);
         });
 
         OnModelCreatingPartial(modelBuilder);

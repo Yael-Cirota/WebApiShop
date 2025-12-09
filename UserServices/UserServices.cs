@@ -36,6 +36,7 @@ namespace Service
         }
         public async void UpdateUser(int id, User user)
         {
+            user.Id = id;
             _userRepositories.UpdateUser(id, user);
         }
     }

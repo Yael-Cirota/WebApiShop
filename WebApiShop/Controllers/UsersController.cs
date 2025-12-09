@@ -10,7 +10,7 @@ namespace WebApiShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase, IUsersController
+    public class UsersController : ControllerBase
     {
         private readonly IUserServices _userServices;
         private readonly IPasswordServices _passwordServices;
