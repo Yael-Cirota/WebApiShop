@@ -30,6 +30,8 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddDbContext<ShopContext>(option => option.UseSqlServer(
     "Data Source=srv2\\pupils;Initial Catalog=Shop;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"));
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
@@ -44,9 +46,6 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/openapi/v1.json", "My API V1");
     });
 }
-
-
-// Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
 

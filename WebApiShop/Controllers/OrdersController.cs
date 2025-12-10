@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using DTO_s;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using System.Threading.Tasks;
@@ -20,9 +20,9 @@ namespace WebApiShop.Controllers
 
         // GET api/<OrdersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetById(int id)
+        public async Task<ActionResult<OrderDTO>> GetById(int id)
         {
-            Order orderResult = await _iOrderService.GetById(id);
+            OrderDTO orderResult = await _iOrderService.GetById(id);
             if (orderResult == null)
                 return NoContent();
             return Ok(orderResult);
@@ -30,9 +30,9 @@ namespace WebApiShop.Controllers
 
         // POST api/<OrdersController>
         [HttpPost]
-        public async Task<ActionResult<Order>> Post([FromBody] Order order)
+        public async Task<ActionResult<OrderDTO>> Post([FromBody] OrderDTO order)
         {
-            Order orderResult = await _iOrderService.AddOrder(order);
+            OrderDTO orderResult = await _iOrderService.AddOrder(order);
             return CreatedAtAction(nameof(GetById), new { id = orderResult.OrderId }, orderResult);
         }
     }

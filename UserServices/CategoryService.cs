@@ -6,21 +6,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserRepository;
+using DTO_s;
+using AutoMapper;
 
 
 namespace Service
 {
     public class CategoryService : ICategoryService
     {
-        private readonly ICategoryRepository _icategoryRepository;
-        public CategoryService(ICategoryRepository categoryRepository)
+        private readonly ICategoryRepository _iCategoryRepository;
+        private readonly IMapper _iMapper;
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
         {
-            _icategoryRepository = categoryRepository;
+            _iCategoryRepository = categoryRepository;
+            _iMapper = mapper;
         }
 
-        public async Task<IEnumerable<Category>> GetCategories()
+        public async Task<IEnumerable<CategoryDTO>> GetCategories()
         {
-            return await _icategoryRepository.GetCategories();
+            IEnumerable<Category> c = await _iCategoryRepository.GetCategories();
+            IEnumerable<CategoryDTO> categoryDTOs = _iMapper.Map< IEnumerable<Category>, IEnumerable<CategoryDTO>>(c);
+            return categoryDTOs;
         }
     }
 }

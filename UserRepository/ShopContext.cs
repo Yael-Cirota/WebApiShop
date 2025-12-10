@@ -40,6 +40,11 @@ public partial class ShopContext : DbContext
             entity.Property(e => e.OrderDate).HasColumnName("Order_date");
             entity.Property(e => e.OrderSum).HasColumnName("Order_sum");
             entity.Property(e => e.UserId).HasColumnName("User_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Orders_Users");
         });
 
         modelBuilder.Entity<OrderItem>(entity =>
