@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Service;
+using DTO_s;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,9 +24,9 @@ namespace WebApiShop.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> Get()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> Get()
         {
-            IEnumerable<User> users = await _userServices.GetUsers();
+            IEnumerable<UserDTO> users = await _userServices.GetUsers();
             return Ok(users);
         }
 
@@ -33,7 +34,7 @@ namespace WebApiShop.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> GetById(int id)
         {
-            User user = await _userServices.GetById(id);
+            UserDTO user = await _userServices.GetById(id);
             if (user == null)
                 return NotFound();
             return Ok(user);
@@ -41,12 +42,13 @@ namespace WebApiShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<ActionResult<User>> NewUser([FromBody] User user)
+        public async Task<ActionResult<UserDTO>> NewUser([FromBody] UserDTO user, string password)
         {
-            Password password = _passwordServices.GetStrength(user.Password);
+            int strength = _passwordServices.GetStrength(password);
+            Password password1 = {password, strength};
             if (password.Strength < 2)
                 return BadRequest($"Password too weak (score: {password.Strength}/4). Minimum required: 2");
-            User userResult = await _userServices.AddUser(user);
+            UserDTO userResult = await _userServices.AddUser(user);
             if (userResult == null)
             {
                 return BadRequest("The Password is not Strength Enough");
@@ -55,9 +57,9 @@ namespace WebApiShop.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login([FromBody] User user)
+        public async Task<ActionResult<UserDTO>> Login([FromBody] UserDTO user)
         {
-            User userResult = await _userServices.FindUser(user);
+            UserDTO userResult = await _userServices.FindUser(user);
             if (userResult == null)
                 return Unauthorized();
             return Ok(userResult);
@@ -65,7 +67,7 @@ namespace WebApiShop.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateUser(int id, [FromBody] User user)
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] UserDTO user)
         {
             Password password = _passwordServices.GetStrength(user.Password);
             if (password.Strength < 2)

@@ -10,8 +10,9 @@ namespace DTO_s
         int OrderId,
         DateOnly? OrderDate,
         int OrderSum,
-        int UserId,
-        string UserFirstName,
-        string UserLastName
+        IEnumerable<OrderDTO> orderItems,
+        int UserId
+        //string UserFirstName,
+        //string UserLastName
     );
 }

@@ -13,7 +13,7 @@ namespace Service
     {
         public AutoMapper() 
         {
-            CreateMap<User, UserDTO>();
+            CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<Product, ProductDTO>();
             CreateMap<Category, CategoryDTO>();
             CreateMap<Order, OrderDTO>().ReverseMap();

@@ -29,7 +29,7 @@ namespace WebApiShop.Controllers
             }
             return Ok(result);
         }
-
+        [HttpPost]
         public ActionResult<Password> Post([FromBody] Password password)
         {
             throw new NotImplementedException();
