@@ -15,11 +15,13 @@ namespace WebApiShop.Controllers
     {
         private readonly IUserServices _userServices;
         private readonly IPasswordServices _passwordServices;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserServices userServices, IPasswordServices passwordServices)
+        public UsersController(IUserServices userServices, IPasswordServices passwordServices, ILogger<UsersController> logger)
         {
             _userServices = userServices;
             _passwordServices = passwordServices;
+            _logger = logger;
         }
 
         // GET: api/<UsersController>
@@ -44,11 +46,10 @@ namespace WebApiShop.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDTO>> NewUser([FromBody] UserDTO user, string password)
         {
-            int strength = _passwordServices.GetStrength(password);
-            Password password1 = {password, strength};
-            if (password.Strength < 2)
-                return BadRequest($"Password too weak (score: {password.Strength}/4). Minimum required: 2");
-            UserDTO userResult = await _userServices.AddUser(user);
+            Password password1 = _passwordServices.GetStrength(password);
+            if (password1.Strength < 2)
+                return BadRequest($"Password too weak (score: {password1.Strength}/4). Minimum required: 2");
+            UserDTO userResult = await _userServices.AddUser(user, password);
             if (userResult == null)
             {
                 return BadRequest("The Password is not Strength Enough");
@@ -57,22 +58,22 @@ namespace WebApiShop.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDTO>> Login([FromBody] UserDTO user)
+        public async Task<ActionResult<UserDTO>> Login([FromBody] LoginUser user)
         {
             UserDTO userResult = await _userServices.FindUser(user);
             if (userResult == null)
                 return Unauthorized();
+            _logger.LogInformation($"Login attempted with Email {user.Email} and password {user.Password}");
             return Ok(userResult);
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateUser(int id, [FromBody] UserDTO user)
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] UserDTO user, string password)
         {
-            Password password = _passwordServices.GetStrength(user.Password);
-            if (password.Strength < 2)
-                return BadRequest($"Password too weak (score: {password.Strength}/4). Minimum required: 2");
-            _userServices.UpdateUser(id, user);
+            bool res = await _userServices.UpdateUser(id, user, password);
+            if(!res)
+                return BadRequest($"Password too weak ");
             return NoContent();
         }
 

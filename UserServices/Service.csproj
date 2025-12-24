@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DTO's\DTO's.csproj" />
     <ProjectReference Include="..\UserRepository\Repositories.csproj" />
   </ItemGroup>
 

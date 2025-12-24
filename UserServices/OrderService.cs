@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DTO_s;
-using Entites;
 using Entities;
 using Repositories;
 using System;

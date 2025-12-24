@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using NLog.Web;
 using Repositories;
 using Service;
 using UserRepository;
@@ -35,6 +36,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
+
+builder.Host.UseNLog();
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
 ﻿using DTO_s;
+using Entities;
 
 namespace Service
 {

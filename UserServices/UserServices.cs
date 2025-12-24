@@ -6,14 +6,14 @@ using UserRepository;
 
 namespace Service
 {
-    public class UserServices : IUserServices
+    public class UserServices :IUserServices
     {
         private readonly IUserRepositories _userRepositories;
         private readonly IPasswordServices _passwordServices;
         private readonly IMapper _iMapper;
 
 
-        public UserServices(IUserRepositories userRepositories,IMapper mapper, IPasswordServices passwordServices)
+        public UserServices(IUserRepositories userRepositories, IMapper mapper, IPasswordServices passwordServices)
         {
             _userRepositories = userRepositories;
             _passwordServices = passwordServices;
@@ -22,7 +22,7 @@ namespace Service
 
         public async Task<IEnumerable<UserDTO>> GetUsers()
         {
-            IEnumerable<Entities.User> users =  await _userRepositories.GetUsers();
+            IEnumerable<Entities.User> users = await _userRepositories.GetUsers();
             IEnumerable<UserDTO> userResult = _iMapper.Map<IEnumerable<Entities.User>, IEnumerable<UserDTO>>(users);
             return userResult;
         }
@@ -44,19 +44,23 @@ namespace Service
             UserDTO userDTO = _iMapper.Map<Entities.User, UserDTO>(res);
             return userDTO;
         }
-        public async Task<UserDTO> FindUser(UserDTO user)
+        public async Task<UserDTO> FindUser(LoginUser user)
         {
-            //ליצור USERLOGIN
-            Entities.User userLogin = _iMapper.Map<UserDTO, Entities.User>(user);
-            Entities.User res = await _userRepositories.AddUser(userLogin);
+            //Entities.User userLogin = _iMapper.Map<UserDTO, Entities.User>(user);
+            Entities.User res = await _userRepositories.FindUser(user);
             UserDTO userDTO = _iMapper.Map<Entities.User, UserDTO>(res);
             return userDTO;
         }
-        public async void UpdateUser(int id, UserDTO user)
+        public async Task<bool> UpdateUser(int id, UserDTO user, string password)
         {
-            user.Id = id;
+            Password password1 = _passwordServices.GetStrength(password);
+            if (password1.Strength < 2)
+                return false;
             Entities.User userToUpdate = _iMapper.Map<UserDTO, Entities.User>(user);
-            await _userRepositories.UpdateUser(id, userToUpdate);
+            userToUpdate.Id = id;
+            userToUpdate.Password = password;
+            await _userRepositories.UpdateUser(userToUpdate);
+            return true;
         }
     }
 }
