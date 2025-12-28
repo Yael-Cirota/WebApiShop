@@ -10,7 +10,7 @@ namespace DTO_s
         int OrderId,
         DateOnly? OrderDate,
         int OrderSum,
-        //ICollection<OrderItemDTO> OrderItems,
+        ICollection<OrderItemDTO> OrderOrderItems,
         int UserId
     );
 }

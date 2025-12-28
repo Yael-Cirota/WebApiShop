@@ -8,6 +8,6 @@ namespace DTO_s
 {
     public record OrderItemDTO(
         int ProductId,
-        int Quanitity
+        int Quantity
     );
 }

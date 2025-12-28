@@ -24,14 +24,6 @@ namespace WebApiShop.Controllers
             _logger = logger;
         }
 
-        // GET: api/<UsersController>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> Get()
-        {
-            IEnumerable<UserDTO> users = await _userServices.GetUsers();
-            return Ok(users);
-        }
-
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> GetById(int id)
@@ -54,7 +46,7 @@ namespace WebApiShop.Controllers
             {
                 return BadRequest("The Password is not Strength Enough");
             }
-            return CreatedAtAction(nameof(Get), new { id = userResult.Id }, userResult);
+            return CreatedAtAction(nameof(GetById), new { id = userResult.Id }, userResult);
         }
 
         [HttpPost("login")]
@@ -73,7 +65,7 @@ namespace WebApiShop.Controllers
         {
             bool res = await _userServices.UpdateUser(id, user, password);
             if(!res)
-                return BadRequest($"Password too weak ");
+                return BadRequest("Password too weak");
             return NoContent();
         }
 

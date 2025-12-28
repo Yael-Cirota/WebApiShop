@@ -5,20 +5,15 @@ using Repositories;
 using System.Linq;
 using System.Text.Json;
 
-namespace UserRepository
+namespace Repositories
 {
-    public class UserRepositories : IUserRepositories
+    public class UserRepository : IUserRepository
     {
         ShopContext _dbContext;
 
-        public UserRepositories(ShopContext dbContext)
+        public UserRepository(ShopContext dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public async Task<IEnumerable<User>> GetUsers()
-        {
-            return _dbContext.Users;
         }
 
         public async Task<User> GetById(int id)

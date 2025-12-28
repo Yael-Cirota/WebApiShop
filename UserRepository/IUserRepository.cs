@@ -1,14 +1,13 @@
 ﻿using DTO_s;
 using Entities;
 
-namespace UserRepository
+namespace Repositories
 {
-    public interface IUserRepositories
+    public interface IUserRepository
     {
         Task<User> AddUser(User user);
         Task<User?> FindUser(LoginUser user);
         Task<User> GetById(int id);
-        Task<IEnumerable<User>> GetUsers();
         Task UpdateUser(User user);
     }
 }

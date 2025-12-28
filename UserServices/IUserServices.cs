@@ -7,7 +7,6 @@ namespace Service
         Task<UserDTO> AddUser(UserDTO user, string password);
         Task<UserDTO> FindUser(LoginUser user);
         Task<UserDTO> GetById(int id);
-        Task<IEnumerable<UserDTO>> GetUsers();
         Task<bool> UpdateUser(int id, UserDTO user, string password);
     }
 }

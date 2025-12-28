@@ -3,14 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using NLog.Web;
 using Repositories;
 using Service;
-using UserRepository;
 using WebApiShop.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddScoped<IUserRepositories, UserRepositories>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IUserServices, UserServices>();
 

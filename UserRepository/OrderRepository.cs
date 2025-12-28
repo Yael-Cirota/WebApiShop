@@ -19,12 +19,13 @@ namespace Repositories
 
         public async Task<Order> GetOrderById(int id)
         {
-            return await _dbContext.Orders.Include(o => o.OrderItems).ThenInclude(o => o.Product).FirstOrDefaultAsync(o => o.OrderId == id);
+            return await _dbContext.Orders.Include(o => o.OrderItems).FirstOrDefaultAsync(oo => oo.OrderId == id);
         }
         public async Task<Order> AddOrder(Order order)
         {
-            _dbContext.Orders.AddAsync(order);
+            await _dbContext.Orders.AddAsync(order);
             await _dbContext.SaveChangesAsync();
+            //return await _dbContext.FindAsync<Order>(order.OrderId);
             return order;
         }
     }

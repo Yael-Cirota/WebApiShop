@@ -2,29 +2,22 @@
 using DTO_s;
 using Entities;
 using Microsoft.Azure.Documents;
-using UserRepository;
+using Repositories;
 
 namespace Service
 {
     public class UserServices :IUserServices
     {
-        private readonly IUserRepositories _userRepositories;
+        private readonly IUserRepository _userRepositories;
         private readonly IPasswordServices _passwordServices;
         private readonly IMapper _iMapper;
 
 
-        public UserServices(IUserRepositories userRepositories, IMapper mapper, IPasswordServices passwordServices)
+        public UserServices(IUserRepository userRepositories, IMapper mapper, IPasswordServices passwordServices)
         {
             _userRepositories = userRepositories;
             _passwordServices = passwordServices;
             _iMapper = mapper;
-        }
-
-        public async Task<IEnumerable<UserDTO>> GetUsers()
-        {
-            IEnumerable<Entities.User> users = await _userRepositories.GetUsers();
-            IEnumerable<UserDTO> userResult = _iMapper.Map<IEnumerable<Entities.User>, IEnumerable<UserDTO>>(users);
-            return userResult;
         }
 
         public async Task<UserDTO> GetById(int id)
