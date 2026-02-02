@@ -56,8 +56,6 @@ async function Login() {
         const user = document.querySelector("#userNameLI");
         const pass = document.querySelector("#passwordLI");
 
-        localStorage.setItem("users", JSON.stringify(await data));
-
         const dataLogin = {
             Email: user.value,
             FirstName: "",
@@ -90,6 +88,7 @@ async function Login() {
             console.log('POST Data:', await data);
 
             window.location.href = "../Update.html";
+            localStorage.setItem("users", JSON.stringify(await data));
         }
     }
     catch (e) {

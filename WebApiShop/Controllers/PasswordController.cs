@@ -9,7 +9,7 @@ namespace WebApiShop.Controllers
     [Route("api/[controller]")]
 
     [ApiController]
-    public class PasswordController : ControllerBase, IPasswordController
+    public class PasswordController : ControllerBase
     {
         private readonly IPasswordServices _passwordServices;
         
@@ -28,11 +28,6 @@ namespace WebApiShop.Controllers
                 return BadRequest("Invalid password");
             }
             return Ok(result);
-        }
-
-        public ActionResult<Password> Post([FromBody] Password password)
-        {
-            throw new NotImplementedException();
         }
     }
 }

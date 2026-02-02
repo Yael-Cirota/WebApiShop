@@ -9,15 +9,17 @@ namespace Service
 {
     public class PasswordServices : IPasswordServices
     {
-        public Password GetStrength(Password password)
-        {
-            var result = Zxcvbn.Core.EvaluatePassword(password.PasswordValue);
-            password.Strength = result.Score;
-            return password;
-        }
+        //public Password GetStrength(Password password)
+        //{
+        //    var result = Zxcvbn.Core.EvaluatePassword(password.PasswordValue);
+        //    password.Strength = result.Score;
+        //    return password;
+        //}
         public Password GetStrength(string password)
         {
-            return GetStrength(new Password { PasswordValue = password });
+            var result = Zxcvbn.Core.EvaluatePassword(password);
+            Password password1 = new() { PasswordValue = password, Strength = result.Score };
+            return password1;
         }
     }
 }
