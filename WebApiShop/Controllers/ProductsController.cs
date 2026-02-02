@@ -11,17 +11,20 @@ namespace WebApiShop.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductService _iProductService;
+        private readonly IProductService _productService;
+        private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, ILogger<ProductsController> logger)
         {
-            _iProductService = productService;
+            _productService = productService;
+            _logger = logger;
         }
         // GET: api/<ProductsController>
         [HttpGet]
         public async Task<IEnumerable<ProductDTO>> Get(string? name, int[]? categories, int? minPrice, int? maxPrice, int? limit, string? orderBy, int? offset)
         {
-            return await _iProductService.GetProducts(name, categories, minPrice, maxPrice, limit, orderBy, offset);
+            _logger.LogInformation("Get products request");
+            return await _productService.GetProducts(name, categories, minPrice, maxPrice, limit, orderBy, offset);
         }
     }
 }

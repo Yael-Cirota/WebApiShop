@@ -52,16 +52,10 @@ namespace WebApiShop.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login([FromBody] LoginUser user)
         {
-<<<<<<< HEAD
-            User userResult = await _userService.FindUser(user);
-            if (userResult == null)
-                return Unauthorized("Invalid email or password");
-=======
             UserDTO userResult = await _userServices.FindUser(user);
             if (userResult == null)
                 return Unauthorized();
             _logger.LogInformation($"Login attempted with Email {user.Email} and password {user.Password}");
->>>>>>> d27a0d75bc717bf29ce1559500c1a220865eb938
             return Ok(userResult);
         }
 
@@ -69,23 +63,10 @@ namespace WebApiShop.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateUser(int id, [FromBody] UserDTO user, string password)
         {
-<<<<<<< HEAD
-            Password password = _passwordServices.GetStrength(user.Password);
-            if (password.Strength < 2)
-                return BadRequest($"Password too weak (score: {password.Strength}/4). Minimum required: 2");
-            await _userServices.UpdateUser(id, user);
-=======
             bool res = await _userServices.UpdateUser(id, user, password);
             if(!res)
                 return BadRequest("Password too weak");
->>>>>>> d27a0d75bc717bf29ce1559500c1a220865eb938
             return NoContent();
-        }
-
-        // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

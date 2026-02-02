@@ -11,18 +11,21 @@ namespace WebApiShop.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrderService _iOrderService;
+        private readonly IOrderService _orderService;
+        private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(IOrderService orderService)
+        public OrdersController(IOrderService orderService, ILogger<OrdersController> logger)
         {
-            _iOrderService = orderService;
+            _orderService = orderService;
+            _logger = logger;
         }
 
         // GET api/<OrdersController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDTO>> GetById(int id)
         {
-            OrderDTO orderResult = await _iOrderService.GetById(id);
+            _logger.LogInformation($"Get order by id: {id}");
+            OrderDTO orderResult = await _orderService.GetById(id);
             if (orderResult == null)
                 return NoContent();
             return Ok(orderResult);
@@ -32,7 +35,8 @@ namespace WebApiShop.Controllers
         [HttpPost]
         public async Task<ActionResult<OrderDTO>> Post([FromBody] OrderDTO order)
         {
-            OrderDTO orderResult = await _iOrderService.AddOrder(order);
+            _logger.LogInformation("Add new order");
+            OrderDTO orderResult = await _orderService.AddOrder(order);
             return CreatedAtAction(nameof(GetById), new { id = orderResult.OrderId }, orderResult);
         }
     }
