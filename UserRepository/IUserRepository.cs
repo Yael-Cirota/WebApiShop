@@ -1,7 +1,7 @@
 ﻿using DTO_s;
 using Entities;
 
-namespace Repositories
+namespace Repository
 {
     public interface IUserRepository
     {

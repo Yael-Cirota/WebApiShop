@@ -19,9 +19,9 @@ namespace WebApiShop.Controllers
         }
         // GET: api/<ProductsController>
         [HttpGet]
-        public async Task<IEnumerable<ProductDTO>> Get(string? name, int[]? categories, int? minPrice, int? maxPrice, int? limit, string? orderBy, int? offset)
+        public async Task<PageResponse<ProductDTO>> Get(string? name, [FromQuery] int[]? categories, int? minPrice, int? maxPrice, int? position, int? skip, string? orderBy, string? description)
         {
-            return await _iProductService.GetProducts(name, categories, minPrice, maxPrice, limit, orderBy, offset);
+            return await _iProductService.GetProducts(name, categories, minPrice, maxPrice, position, skip, orderBy, description);
         }
     }
 }

@@ -2,7 +2,7 @@
 using DTO_s;
 using Entities;
 using Microsoft.Azure.Documents;
-using Repositories;
+using Repository;
 
 namespace Service
 {

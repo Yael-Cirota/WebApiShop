@@ -1,11 +1,10 @@
 ﻿using DTO_s;
 using Entities;
 using Microsoft.EntityFrameworkCore;
-using Repositories;
 using System.Linq;
 using System.Text.Json;
 
-namespace Repositories
+namespace Repository
 {
     public class UserRepository : IUserRepository
     {

@@ -1,6 +1,7 @@
 ﻿using Entities;
 
-namespace Repositories
+namespace  Repository
+
 {
     public interface IOrderRepository
     {
