@@ -26,7 +26,7 @@ namespace WebApiShop.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<string>> GetById(int id)
+        public async Task<ActionResult<User>> GetById(int id)
         {
             UserDTO user = await _userServices.GetById(id);
             if (user == null)
@@ -67,12 +67,6 @@ namespace WebApiShop.Controllers
             if(!res)
                 return BadRequest("Password too weak");
             return NoContent();
-        }
-
-        // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

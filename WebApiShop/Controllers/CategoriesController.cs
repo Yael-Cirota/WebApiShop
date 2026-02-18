@@ -11,17 +11,20 @@ namespace WebApiShop.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        ICategoryService _iCategoryService;
+        private readonly ICategoryService _categoryService;
+        private readonly ILogger<CategoriesController> _logger;
 
-        public CategoriesController(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService, ILogger<CategoriesController> logger)
         {
-            _iCategoryService = categoryService;
+            _categoryService = categoryService;
+            _logger = logger;
         }
         // GET: api/<CategoriesController>
         [HttpGet]
         public async Task<IEnumerable<CategoryDTO>> Get()
         {
-            return await _iCategoryService.GetCategories();
+            _logger.LogInformation("Get categories request");
+            return await _categoryService.GetCategories();
         }
     }
 }

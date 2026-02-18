@@ -15,6 +15,14 @@ namespace Repository
             _dbContext = dbContext;
         }
 
+<<<<<<< HEAD:UserRepository/UserRepositories.cs
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            return await Task.FromResult(_dbContext.Users);
+        }
+
+=======
+>>>>>>> d27a0d75bc717bf29ce1559500c1a220865eb938:UserRepository/UserRepository.cs
         public async Task<User> GetById(int id)
         {
             return await _dbContext.Users.FindAsync(id);
@@ -34,7 +42,11 @@ namespace Repository
              );
         }
 
+<<<<<<< HEAD:UserRepository/UserRepositories.cs
+        public async Task UpdateUser(int id, User user)
+=======
         public async Task UpdateUser(User user)
+>>>>>>> d27a0d75bc717bf29ce1559500c1a220865eb938:UserRepository/UserRepository.cs
         {
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync();

@@ -44,6 +44,11 @@ namespace Service
             UserDTO userDTO = _iMapper.Map<Entities.User, UserDTO>(res);
             return userDTO;
         }
+<<<<<<< HEAD
+        public async Task UpdateUser(int id, User user)
+        {
+            await _userRepositories.UpdateUser(id, user);
+=======
         public async Task<bool> UpdateUser(int id, UserDTO user, string password)
         {
             Password password1 = _passwordServices.GetStrength(password);
@@ -54,6 +59,7 @@ namespace Service
             userToUpdate.Password = password;
             await _userRepositories.UpdateUser(userToUpdate);
             return true;
+>>>>>>> d27a0d75bc717bf29ce1559500c1a220865eb938
         }
     }
 }
