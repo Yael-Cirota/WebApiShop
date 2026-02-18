@@ -11,7 +11,7 @@ namespace DTO_s
         int ProductId,
         string ProductName,
         int Price,
-        //int CategoryId,
+        int CategoryId,
         string Description
     );
 }

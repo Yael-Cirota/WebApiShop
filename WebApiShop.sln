@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiShop", "WebApiShop\WebApiShop.csproj", "{2B41CC8D-44EC-44E1-BBD9-340933F0A1AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "UserRepository\Repositories.csproj", "{7B24F61B-E58C-4A15-A327-B8724C48731C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "UserRepository\Repository.csproj", "{7B24F61B-E58C-4A15-A327-B8724C48731C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{5C87DA19-71BD-45C0-9830-298E326242D7}"
 EndProject

@@ -2,15 +2,13 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace Repositories;
+namespace Repository;
 
 public partial class ShopContext : DbContext
 {
-
-    public ShopContext(){}
     public ShopContext(DbContextOptions<ShopContext> options)
         : base(options)
     {
@@ -23,6 +21,8 @@ public partial class ShopContext : DbContext
     public virtual DbSet<OrderItem> OrderItems { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
+
+    public virtual DbSet<Rating> Ratings { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -38,6 +38,8 @@ public partial class ShopContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
+            entity.HasIndex(e => e.UserId, "IX_Orders_User_id");
+
             entity.Property(e => e.OrderId).HasColumnName("Order_id");
             entity.Property(e => e.OrderDate).HasColumnName("Order_date");
             entity.Property(e => e.OrderSum).HasColumnName("Order_sum");
@@ -52,6 +54,10 @@ public partial class ShopContext : DbContext
         modelBuilder.Entity<OrderItem>(entity =>
         {
             entity.ToTable("Order_item");
+
+            entity.HasIndex(e => e.OrderId, "IX_Order_item_Order_id");
+
+            entity.HasIndex(e => e.ProductId, "IX_Order_item_Product_id");
 
             entity.Property(e => e.OrderItemId).HasColumnName("Order_item_id");
             entity.Property(e => e.OrderId).HasColumnName("Order_id");
@@ -70,6 +76,8 @@ public partial class ShopContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
+            entity.HasIndex(e => e.CategoryId, "IX_Products_Category_id");
+
             entity.Property(e => e.ProductId).HasColumnName("Product_id");
             entity.Property(e => e.CategoryId).HasColumnName("Category_id");
             entity.Property(e => e.Description).HasMaxLength(100);
@@ -83,6 +91,32 @@ public partial class ShopContext : DbContext
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Products_Categories");
+        });
+
+        modelBuilder.Entity<Rating>(entity =>
+        {
+            entity.HasKey(e => e.RatingId).HasName("PK_RATING");
+
+            entity.ToTable("Rating");
+
+            entity.Property(e => e.RatingId).HasColumnName("RATING_ID");
+            entity.Property(e => e.Host)
+                .HasMaxLength(50)
+                .HasColumnName("HOST");
+            entity.Property(e => e.Method)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("METHOD");
+            entity.Property(e => e.Path)
+                .HasMaxLength(50)
+                .HasColumnName("PATH");
+            entity.Property(e => e.RecordDate)
+                .HasColumnType("datetime")
+                .HasColumnName("Record_Date");
+            entity.Property(e => e.Referer)
+                .HasMaxLength(100)
+                .HasColumnName("REFERER");
+            entity.Property(e => e.UserAgent).HasColumnName("USER_AGENT");
         });
 
         modelBuilder.Entity<User>(entity =>

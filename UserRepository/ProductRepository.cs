@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repositories
+namespace Repository
 {
     public class ProductRepository : IProductRepository
     {
@@ -16,9 +16,37 @@ namespace Repositories
         {
             _dbContext = dbContext;
         }
-        public async Task<IEnumerable<Product>> GetProducts(string? name, int[]? categories, int? nimPrice, int? maxPrice, int? limit, string? orderBy, int? offset)
+        public async Task<(List<Product> Items, int TotalCount)> GetProducts(string? name, int[]? categories, int? minPrice, int? maxPrice, int position, int skip, string? orderBy, string? description)
         {
-            return await _dbContext.Products.ToListAsync();
+            var query = _dbContext.Products.Where(product =>
+                (description == null ? (true) : product.Description.Contains(description))
+                && (minPrice == null ? (true) : product.Price >= minPrice)
+                && (maxPrice == null ? (true) : product.Price <= maxPrice)
+                && (name == null ? (true) : product.ProductName.Contains(name))
+                && (categories == null || categories.Length==0 ? (true) : categories.Contains(product.CategoryId)));
+            if(orderBy != null)
+            {
+                switch (orderBy.ToLower())
+                {
+                    case "price_asc":
+                        query = query.OrderBy(p => p.Price);
+                        break;
+                    case "price_desc":
+                        query = query.OrderByDescending(p => p.Price);
+                        break;
+                    default:
+                        query = query.OrderBy(p => p.ProductName);
+                        break;
+                }
+            }
+            else
+                query = query.OrderBy(p => p.ProductName);
+
+            Console.WriteLine(query.ToQueryString());
+            List<Product> products = await query.Skip((position - 1) * skip).Take(skip)
+                .Include(p => p.Category).ToListAsync();
+            var total = await query.CountAsync();
+            return (products, total);
         }
 
     }
