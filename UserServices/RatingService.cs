@@ -1,11 +1,5 @@
 ﻿using Entities;
 using Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Service.RatingService;
 
 namespace Service
 {
@@ -17,6 +11,7 @@ namespace Service
         {
             _ratingRepository = ratingRepository;
         }
+
         public async Task<Rating> AddRating(Rating newRating)
         {
             return await _ratingRepository.AddRating(newRating);
