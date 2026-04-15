@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DTO_s;
 using Entities;
-using Repository;
+using Repositories;
 
 namespace Service
 {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
-namespace Repository
+namespace Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {

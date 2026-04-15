@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NLog.Web;
-using Repository;
+using Repositories;
 using Service;
 using WebApiShop.Controllers;
 using WebApiShop.MiddleWare;

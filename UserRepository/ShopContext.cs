@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Repository;
+namespace Repositories;
 
 public partial class ShopContext : DbContext
 {
