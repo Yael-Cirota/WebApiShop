@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Service;
-using System.Threading.Tasks;
 
 namespace WebApiShop.MiddleWare
 {

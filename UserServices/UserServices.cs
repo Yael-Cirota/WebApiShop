@@ -20,34 +20,34 @@ namespace Service
 
         public async Task<UserDTO> GetById(int id)
         {
-            Entities.User user = await _userRepositories.GetById(id);
-            UserDTO userDTO = _mapper.Map<Entities.User, UserDTO>(user);
+                User user = await _userRepositories.GetById(id);
+            UserDTO userDTO = _mapper.Map<User, UserDTO>(user);
             return userDTO;
         }
 
         public async Task<UserDTO> AddUser(UserDTO user, string password)
         {
-            if (_passwordServices.GetStrength(password).Strength < 2)
+            if (_passwordServices.GetStrength(password).Strength <= 2)
                 return null;
-            Entities.User userEntity = _mapper.Map<UserDTO, Entities.User>(user);
+            User userEntity = _mapper.Map<UserDTO,User>(user);
             userEntity.Password = password;
-            Entities.User res = await _userRepositories.AddUser(userEntity);
-            UserDTO userDTO = _mapper.Map<Entities.User, UserDTO>(res);
+            User result = await _userRepositories.AddUser(userEntity);
+            UserDTO userDTO = _mapper.Map<User, UserDTO>(result);
             return userDTO;
         }
         public async Task<UserDTO> FindUser(LoginUser user)
         {
-            Entities.User res = await _userRepositories.FindUser(user);
-            UserDTO userDTO = _mapper.Map<Entities.User, UserDTO>(res);
+            User res = await _userRepositories.FindUser(user);
+            UserDTO userDTO = _mapper.Map<User, UserDTO>(res);
             return userDTO;
         }
 
         public async Task<bool> UpdateUser(int id, UserDTO user, string password)
         {
             Password password1 = _passwordServices.GetStrength(password);
-            if (password1.Strength < 2)
+            if (password1.Strength <= 2)
                 return false;
-            Entities.User userToUpdate = _mapper.Map<UserDTO, Entities.User>(user);
+            User userToUpdate = _mapper.Map<UserDTO, User>(user);
             userToUpdate.Id = id;
             userToUpdate.Password = password;
             await _userRepositories.UpdateUser(userToUpdate);
