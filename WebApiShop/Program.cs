@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//builder.Host.UseNLog();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IUserServices, UserServices>();
@@ -40,7 +42,6 @@ builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
 
-builder.Host.UseNLog();
 
 var app = builder.Build();
 
@@ -55,7 +56,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseErrorHandling();
+//app.UseErrorHandling();
 
 app.UseRating();
 

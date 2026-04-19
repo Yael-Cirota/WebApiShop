@@ -2,6 +2,7 @@
 using DTO_s;
 using Entities;
 using Microsoft.Azure.Documents;
+using Microsoft.Extensions.Logging;
 using Repositories;
 
 namespace Service
@@ -11,12 +12,14 @@ namespace Service
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
         private readonly IProductService _productService;
+        private readonly ILogger _logger;
 
-        public OrderService(IOrderRepository orderRepository, IMapper mapper, IProductService productService)
+        public OrderService(IOrderRepository orderRepository, IMapper mapper, IProductService productService, ILogger logger)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
             _productService = productService;
+            _logger = logger;
         }
 
         public async Task<OrderDTO> GetById(int id)
@@ -28,22 +31,16 @@ namespace Service
 
         public async Task<OrderDTO> AddOrder(OrderDTO order)
         {
-            try
+            Order ord = _mapper.Map<OrderDTO, Order>(order);
+            int checkedSum = await checkOrderSum(ord.OrderItems);
+            if (checkedSum != order.OrderSum)
             {
-                Order ord = _mapper.Map<OrderDTO, Order>(order);
-                ord.OrderSum = await checkOrderSum(ord.OrderItems);
-                if (ord.OrderSum != order.OrderSum)
-                {
-                    throw new Exception("Order sum must is incorrect.");
-                }
-                Order res = await _orderRepository.AddOrder(ord);
+                ord.OrderSum = checkedSum;
+                _logger.LogInformation($"Order number {order.OrderId} with incorrect sum, the order sum is {checkedSum}");
+            }
+            Order res = await _orderRepository.AddOrder(ord);
                 OrderDTO orderDTO = _mapper.Map<Order, OrderDTO>(res);
                 return orderDTO;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error while adding order: " + ex.Message);
-            } 
         }
 
         private async Task<int> checkOrderSum(ICollection<OrderItem> orderItems)

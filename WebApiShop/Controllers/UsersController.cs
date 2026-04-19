@@ -38,10 +38,6 @@ namespace WebApiShop.Controllers
             if (password.Strength < 2)
                 return BadRequest($"Password too weak (score: {password.Strength}/4). Minimum required: 2");
             UserDTO userResult = await _userServices.AddUser(user);
-            if (userResult == null)
-            {
-                return BadRequest("The Password is not Strength Enough");
-            }
             return CreatedAtAction(nameof(GetById), new { id = userResult.Id }, userResult);
         }
 
@@ -61,7 +57,7 @@ namespace WebApiShop.Controllers
         {
             bool res = await _userServices.UpdateUser(user);
             if(!res)
-                return BadRequest("Password too weak");
+                return BadRequest("User details didn't update");
             return Ok();
         }
     }

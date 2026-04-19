@@ -11,6 +11,7 @@ namespace DTO_s
 
     int Id,
 
+    [StringLength(16,ErrorMessage ="the input length must be less than 16 digits")]
     string FirstName,
 
     string LastName,

@@ -1,2 +1,11 @@
 {"timestamp":"2026-04-19 14:29:36.9918","level":"Info","message":"Get categories request","logger":"WebApiShop.Controllers.CategoriesController"}
 {"timestamp":"2026-04-19 14:30:22.8421","level":"Info","message":"Login attempted with Email yaelcirota@gmail.com and password 12yael34!","logger":"WebApiShop.Controllers.UsersController"}
+{"timestamp":"2026-04-19 15:00:33.6701","level":"Info","message":"Password strength check requested","logger":"WebApiShop.Controllers.PasswordController"}
+{"timestamp":"2026-04-19 15:00:33.8538","level":"Info","message":"Password strength check requested","logger":"WebApiShop.Controllers.PasswordController"}
+{"timestamp":"2026-04-19 15:00:58.3859","level":"Info","message":"Login attempted with Email stlusi1254@gmail.com and password STlusi1254","logger":"WebApiShop.Controllers.UsersController"}
+{"timestamp":"2026-04-19 17:02:37.3005","level":"Info","message":"Get products request","logger":"WebApiShop.Controllers.ProductsController"}
+{"timestamp":"2026-04-19 17:03:11.7476","level":"Info","message":"Get products request","logger":"WebApiShop.Controllers.ProductsController"}
+{"timestamp":"2026-04-19 17:03:40.3964","level":"Info","message":"Get categories request","logger":"WebApiShop.Controllers.CategoriesController"}
+{"timestamp":"2026-04-19 17:07:01.9574","level":"Info","message":"Get products request","logger":"WebApiShop.Controllers.ProductsController"}
+{"timestamp":"2026-04-19 17:07:32.3688","level":"Info","message":"Get order by id: 1","logger":"WebApiShop.Controllers.OrdersController"}
+{"timestamp":"2026-04-19 17:10:30.8576","level":"Info","message":"Add new order","logger":"WebApiShop.Controllers.OrdersController"}
