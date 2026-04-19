@@ -10,7 +10,7 @@ namespace DTO_s
     (
         int ProductId,
         string ProductName,
-        int Price,
+        decimal Price,
         int CategoryId,
         string Description
     );

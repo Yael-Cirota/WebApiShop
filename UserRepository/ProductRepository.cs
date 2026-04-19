@@ -16,6 +16,12 @@ namespace Repositories
         {
             _dbContext = dbContext;
         }
+
+        public async Task<Product> GetProductById(int id)
+        {
+            return await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == id);
+        }
+
         public async Task<(List<Product> Items, int TotalCount)> GetProducts(string? name, int[]? categories, int? minPrice, int? maxPrice, int position, int skip, string? orderBy, string? description)
         {
             var query = _dbContext.Products.Where(product =>

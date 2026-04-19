@@ -20,17 +20,17 @@ namespace Service
 
         public async Task<UserDTO> GetById(int id)
         {
-                User user = await _userRepositories.GetById(id);
+            User user = await _userRepositories.GetById(id);
             UserDTO userDTO = _mapper.Map<User, UserDTO>(user);
             return userDTO;
         }
 
-        public async Task<UserDTO> AddUser(UserDTO user, string password)
+        public async Task<UserDTO> AddUser(PostUserDTO user)
         {
-            if (_passwordServices.GetStrength(password).Strength <= 2)
+            if (_passwordServices.GetStrength(user.Password).Strength <= 2)
                 return null;
-            User userEntity = _mapper.Map<UserDTO,User>(user);
-            userEntity.Password = password;
+            User userEntity = _mapper.Map<PostUserDTO, User>(user);
+            userEntity.Password = user.Password;
             User result = await _userRepositories.AddUser(userEntity);
             UserDTO userDTO = _mapper.Map<User, UserDTO>(result);
             return userDTO;
@@ -42,14 +42,14 @@ namespace Service
             return userDTO;
         }
 
-        public async Task<bool> UpdateUser(int id, UserDTO user, string password)
+        public async Task<bool> UpdateUser(PostUserDTO user)
         {
-            Password password1 = _passwordServices.GetStrength(password);
+            Password password1 = _passwordServices.GetStrength(user.Password);
             if (password1.Strength <= 2)
                 return false;
-            User userToUpdate = _mapper.Map<UserDTO, User>(user);
-            userToUpdate.Id = id;
-            userToUpdate.Password = password;
+            User userToUpdate = _mapper.Map<PostUserDTO, User>(user);
+            userToUpdate.Id = user.Id;
+            userToUpdate.Password = user.Password;
             await _userRepositories.UpdateUser(userToUpdate);
             return true;
         }

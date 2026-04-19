@@ -136,9 +136,5 @@ public partial class ShopContext : DbContext
                 .IsRequired()
                 .HasMaxLength(20);
         });
-
-        OnModelCreatingPartial(modelBuilder);
     }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

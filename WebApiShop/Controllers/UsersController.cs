@@ -32,12 +32,12 @@ namespace WebApiShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> NewUser([FromBody] UserDTO user, string password)
+        public async Task<ActionResult<UserDTO>> NewUser([FromBody] PostUserDTO user)
         {
-            Password password1 = _passwordServices.GetStrength(password);
-            if (password1.Strength < 2)
-                return BadRequest($"Password too weak (score: {password1.Strength}/4). Minimum required: 2");
-            UserDTO userResult = await _userServices.AddUser(user, password);
+            Password password = _passwordServices.GetStrength(user.Password);
+            if (password.Strength < 2)
+                return BadRequest($"Password too weak (score: {password.Strength}/4). Minimum required: 2");
+            UserDTO userResult = await _userServices.AddUser(user);
             if (userResult == null)
             {
                 return BadRequest("The Password is not Strength Enough");
@@ -57,12 +57,12 @@ namespace WebApiShop.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateUser(int id, [FromBody] UserDTO user, string password)
+        public async Task<ActionResult> UpdateUser([FromBody]PostUserDTO user)
         {
-            bool res = await _userServices.UpdateUser(id, user, password);
+            bool res = await _userServices.UpdateUser(user);
             if(!res)
                 return BadRequest("Password too weak");
-            return NoContent();
+            return Ok();
         }
     }
 }

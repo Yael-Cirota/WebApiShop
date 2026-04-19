@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UserRepository\Repositories.csproj" />
+    <ProjectReference Include="..\UserServices\Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

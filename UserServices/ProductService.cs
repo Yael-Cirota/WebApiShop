@@ -16,6 +16,13 @@ namespace Service
             _mapper = mapper;
         }
 
+        public async Task<ProductDTO> GetProductById(int id)
+        {
+            Product p = await _productRepository.GetProductById(id);
+            ProductDTO result = _mapper.Map<Product, ProductDTO>(p);
+            return result;
+        }
+
         public async Task<PageResponse<ProductDTO>> GetProducts(string? name, int[]? categories, int? minPrice, int? maxPrice, int? position, int? skip, string? orderBy, string? description)
         {
             skip = skip ?? 10;

@@ -21,3 +21,4 @@ public partial class Product
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }
+
