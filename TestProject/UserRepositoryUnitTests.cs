@@ -20,7 +20,7 @@ namespace Repositories.Tests
         {
             // Create an in-memory database context using EF InMemory
             var options = new DbContextOptionsBuilder<ShopContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .UseInMemoryDatabase(databaseName: System.Guid.NewGuid().ToString())
                 .Options;
 
             var dbContext = new ShopContext(options);

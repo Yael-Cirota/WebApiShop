@@ -1,0 +1,12 @@
+2026-04-19 14:29:27.6492 Info Loading assembly name: NLog.MailKit
+2026-04-19 14:29:27.7104 Info NLog.MailKit, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.0.5.9893. Product version: 6.0.5+4327d9cd00e234f427bebcb5bfcbb678b316cfd0. GlobalAssemblyCache: False
+2026-04-19 14:29:27.7342 Info Registered target NLog.Targets.FileTarget(Name=mylogfile)
+2026-04-19 14:29:27.9789 Info Registered target NLog.MailKit.MailTarget(Name=email)
+2026-04-19 14:29:27.9947 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.0.6.4706. Product version: 6.0.6+1913a823347d47c0b004ce714af74436261daf20. GlobalAssemblyCache: False
+2026-04-19 14:29:28.0134 Info Configuration initialized: TargetNames=mylogfile, email, ConfigItems=52, AutoReload=true, FilePath=M:\WebApi\15_04_26\WebApiShop\nlog.config
+2026-04-19 14:31:27.0466 Info Loading assembly name: NLog.MailKit
+2026-04-19 14:31:27.1002 Info NLog.MailKit, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.0.5.9893. Product version: 6.0.5+4327d9cd00e234f427bebcb5bfcbb678b316cfd0. GlobalAssemblyCache: False
+2026-04-19 14:31:27.1221 Info Registered target NLog.Targets.FileTarget(Name=mylogfile)
+2026-04-19 14:31:27.3528 Info Registered target NLog.MailKit.MailTarget(Name=email)
+2026-04-19 14:31:27.3681 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.0.6.4706. Product version: 6.0.6+1913a823347d47c0b004ce714af74436261daf20. GlobalAssemblyCache: False
+2026-04-19 14:31:27.3832 Info Configuration initialized: TargetNames=mylogfile, email, ConfigItems=52, AutoReload=true, FilePath=M:\WebApi\15_04_26\WebApiShop\nlog.config

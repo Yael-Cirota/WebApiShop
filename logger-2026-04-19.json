@@ -1,0 +1,2 @@
+{"timestamp":"2026-04-19 14:29:36.9918","level":"Info","message":"Get categories request","logger":"WebApiShop.Controllers.CategoriesController"}
+{"timestamp":"2026-04-19 14:30:22.8421","level":"Info","message":"Login attempted with Email yaelcirota@gmail.com and password 12yael34!","logger":"WebApiShop.Controllers.UsersController"}

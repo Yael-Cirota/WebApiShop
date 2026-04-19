@@ -9,7 +9,7 @@ using TestProject;
 
 namespace Repositories.Tests;
 
-    public class CategoryRepositoryIntegrationTests 
+    public class CategoryRepositoryIntegrationTests : IDisposable
 {
     private readonly DatabaseFixture _fixture;
     private readonly ShopContext _dbContext;
